@@ -97,7 +97,7 @@ async fn track_metrics(req: Request, next: Next) -> impl IntoResponse {
     } else {
         req.uri().path().to_owned()
     };
-    let method = req.method().clone();
+    let method = req.method().to_string()
 
     let response = next.run(req).await;
 
@@ -105,7 +105,7 @@ async fn track_metrics(req: Request, next: Next) -> impl IntoResponse {
     let status = response.status().as_u16().to_string();
 
     let labels = [
-        ("method", method.to_string()),
+        ("method", method),
         ("path", path),
         ("status", status),
     ];
